@@ -1,14 +1,15 @@
 import React from 'react';
 import * as dateFns from 'date-fns';
 
-const Cell = ({ handleSetDay, monthStart, weekStart, monthWeeks }) => {
+const Cell = ({ handleSetDate, currentDate, weekStart }) => {
   const dateFormat = 'd';
   const today = new Date();
   const weekDaysArray = Array.from(Array(7), (_, i) => i);
+  const monthWeeks = dateFns.getWeeksInMonth(currentDate, {weekStartsOn: 1});
   const monthWeeksArray = Array.from(Array(monthWeeks), (_, i) => i);
 
   const onDateClick = newDay => {
-    handleSetDay(dateFns.parse(newDay));
+    handleSetDate(dateFns.parse(newDay));
   };
 
   const rowZ = monthWeeksArray.map((monthWeek, i) => {
@@ -25,7 +26,7 @@ const Cell = ({ handleSetDay, monthStart, weekStart, monthWeeks }) => {
           return (
             <div
               className={`col cell ${
-                !dateFns.isSameMonth(day, monthStart)
+                !dateFns.isSameMonth(day, currentDate)
                   ? 'disabled'
                   : dateFns.isSameDay(day, today)
                   ? 'selected'

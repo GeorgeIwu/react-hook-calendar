@@ -2,16 +2,16 @@ import React from 'react';
 import * as dateFns from 'date-fns';
 import styled from 'styled-components';
 
-const Header = ({ currentMonth, handleSetMonth }) => {
+const Header = ({ currentDate, handleSetDate }) => {
   const dateFormat = 'MMMM yyyy';
-  const title = dateFns.format(currentMonth, dateFormat);
+  const title = dateFns.format(currentDate, dateFormat);
 
   const onClickNext = () => {
-    handleSetMonth(dateFns.addMonths(currentMonth, 1));
+    handleSetDate(dateFns.addMonths(currentDate, 1));
   };
 
   const onClickPrevious = () => {
-    handleSetMonth(dateFns.subMonths(currentMonth, 1));
+    handleSetDate(dateFns.subMonths(currentDate, 1));
   };
 
   return (
