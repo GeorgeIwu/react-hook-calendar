@@ -1,20 +1,11 @@
 import React from 'react';
 import * as dateFns from 'date-fns';
 
-const enLocale = require('date-fns/locale/en-US');
-
-const Cell = ({ currentMonth, currentDay, handleSetDay }) => {
+const Cell = ({ handleSetDay, monthStart, weekStart, monthWeeks }) => {
   const dateFormat = 'd';
-  const monthStartDate = dateFns.startOfMonth(currentMonth);
-  const weekStartDate = dateFns.startOfWeek(monthStartDate, {
-    weekStartsOn: 1,
-  });
-  const weeksInMonth = dateFns.getWeeksInMonth(currentMonth, {
-    weekStartsOn: 1,
-  });
-
+  const today = new Date();
   const weekDaysArray = Array.from(Array(7), (_, i) => i);
-  const monthWeeksArray = Array.from(Array(weeksInMonth), (_, i) => i);
+  const monthWeeksArray = Array.from(Array(monthWeeks), (_, i) => i);
 
   const onDateClick = newDay => {
     handleSetDay(dateFns.parse(newDay));
@@ -28,15 +19,15 @@ const Cell = ({ currentMonth, currentDay, handleSetDay }) => {
     return (
       <div className="row" key={i}>
         {weekDaysForMonthWeek.map((item, index) => {
-          const day = dateFns.addDays(weekStartDate, item);
+          const day = dateFns.addDays(weekStart, item);
           const formattedDate = dateFns.format(day, dateFormat);
 
           return (
             <div
               className={`col cell ${
-                !dateFns.isSameMonth(day, monthStartDate)
+                !dateFns.isSameMonth(day, monthStart)
                   ? 'disabled'
-                  : dateFns.isSameDay(day, currentDay)
+                  : dateFns.isSameDay(day, today)
                   ? 'selected'
                   : ''
               }`}

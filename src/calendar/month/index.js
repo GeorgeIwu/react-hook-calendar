@@ -5,15 +5,17 @@ import CellHeader from './CellHeader';
 import Header from './Header';
 
 const Month = () => {
-  const [month, setMonth] = useState(new Date());
   const [day, setDay] = useState(new Date());
-  // const startDate = dateFns.startOfWeek(currentMonth, { weekStartsOn: 0 });
+  const [month, setMonth] = useState(new Date());
+  const monthStart = dateFns.startOfMonth(month);
+  const weekStart = dateFns.startOfWeek(monthStart, {weekStartsOn: 1});
+  const monthWeeks = dateFns.getWeeksInMonth(month, {weekStartsOn: 1});
 
   return (
     <div className="calendar">
       <Header currentMonth={month} handleSetMonth={setMonth} />
-      <CellHeader currentMonth={month} />
-      <Cell currentMonth={month} currentDay={day} handleSetDay={setDay} />
+      <CellHeader weekStart={weekStart} />
+      <Cell currentDay={day} handleSetDay={setDay} monthStart={monthStart} weekStart={weekStart} monthWeeks={monthWeeks}/>
     </div>
   );
 };
