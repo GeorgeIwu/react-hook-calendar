@@ -3,15 +3,17 @@ import * as dateFns from 'date-fns';
 import styled from 'styled-components';
 
 const Header = ({ date, setDate }) => {
-  const dateFormat = 'MMMM yyyy';
-  const title = dateFns.format(date, dateFormat);
+  const dateFormat = 'MMMM';
+  const weekEnd = dateFns.endOfWeek(date, {weekStartsOn: 1});
+  const weekStart = dateFns.startOfWeek(date, {weekStartsOn: 1});
+  const title = `${dateFns.format(date, dateFormat)}, ${dateFns.format(weekStart, 'dd')} - ${dateFns.format(weekEnd, 'dd')}`;
 
   const onClickNext = () => {
-    setDate(dateFns.addMonths(date, 1));
+    setDate(dateFns.addWeeks(date, 1));
   };
 
   const onClickPrevious = () => {
-    setDate(dateFns.subMonths(date, 1));
+    setDate(dateFns.subWeeks(date, 1));
   };
 
   return (

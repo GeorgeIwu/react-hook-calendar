@@ -2,15 +2,15 @@ import React from 'react';
 import * as dateFns from 'date-fns';
 
 const CellHeader = ({ date }) => {
-  const dateFormat = 'EEE';
+  const dateFormat = 'EEEE dd';
   const weekDaysArray = Array.from(Array(7), (_, i) => i);
-  const monthWeekStart = dateFns.startOfWeek(dateFns.startOfMonth(date), {weekStartsOn: 1});
+  const weekStart = dateFns.startOfWeek(date, {weekStartsOn: 1});
 
   return (
     <div className="days row">
       {weekDaysArray.map((item, i) => (
         <div className="col col-center" key={i}>
-          {dateFns.format(dateFns.addDays(monthWeekStart, item), dateFormat)}
+          {dateFns.format(dateFns.addDays(weekStart, item), dateFormat)}
         </div>
       ))}
     </div>

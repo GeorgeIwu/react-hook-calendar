@@ -1,15 +1,17 @@
 import React from 'react';
 import * as dateFns from 'date-fns';
 
-const Cell = ({ handleSetDate, currentDate, weekStart }) => {
+const CellContent = ({ setDate, date }) => {
   const dateFormat = 'd';
   const today = new Date();
   const weekDaysArray = Array.from(Array(7), (_, i) => i);
-  const monthWeeks = dateFns.getWeeksInMonth(currentDate, {weekStartsOn: 1});
+  const monthWeeks = dateFns.getWeeksInMonth(date, {weekStartsOn: 1});
+  const monthStart = dateFns.startOfMonth(date);
+  const weekStart = dateFns.startOfWeek(monthStart, {weekStartsOn: 1});
   const monthWeeksArray = Array.from(Array(monthWeeks), (_, i) => i);
 
-  const onDateClick = newDay => {
-    handleSetDate(dateFns.parse(newDay));
+  const onClickCell = data => {
+    setDate(dateFns.parse(data));
   };
 
   const rowZ = monthWeeksArray.map((monthWeek, i) => {
@@ -26,14 +28,14 @@ const Cell = ({ handleSetDate, currentDate, weekStart }) => {
           return (
             <div
               className={`col cell ${
-                !dateFns.isSameMonth(day, currentDate)
+                !dateFns.isSameMonth(day, date)
                   ? 'disabled'
                   : dateFns.isSameDay(day, today)
                   ? 'selected'
                   : ''
               }`}
               key={index}
-              onClick={() => onDateClick(day)}
+              onClick={() => onClickCell(day)}
             >
               <span className="number">{formattedDate}</span>
               <span className="bg">{formattedDate}</span>
@@ -47,4 +49,4 @@ const Cell = ({ handleSetDate, currentDate, weekStart }) => {
   return <div className="body">{rowZ}</div>;
 };
 
-export default Cell;
+export default CellContent;
